@@ -59,6 +59,26 @@ $(document).ready(function() {
     function onSignup($e) {
         var username = $e.originalEvent.detail.username;
         var password = $e.originalEvent.detail.password;
+
+        $.ajax({
+            type: 'POST',
+            url: API_BASE + '/user/' + username + '/' + password,
+            dataType: 'json',
+            crossDomain: true,
+            cache: false,
+            success: (data) => {
+                if ('ok' === data.status) {
+                    credentials = btoa(username + ':' + password);
+                    openTodoBox();
+                } else {
+                    // user is not valid
+                    this.openToast('User already registered');
+                }
+            },
+            error: (xhr, status, err) => {
+                this.openToast(err.toString());
+            }
+        });
     }
 
     /**
@@ -106,7 +126,24 @@ $(document).ready(function() {
 
             // delete user
             case $todoBox[0]:
-                openLogin();
+
+                // delete user
+                $.ajax({
+                    type: 'DELETE',
+                    url: API_BASE + '/user',
+                    dataType: 'json',
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: (xhr) => {
+                        xhr.setRequestHeader('Authorization', 'Basic ' + credentials);
+                    },
+                    success: (data) => {
+                        openLogin();
+                    },
+                    error: (xhr, status, err) => {
+                        $todoBox[0].openToast(err.toString());
+                    }
+                });
                 break;
 
             // delte topic
@@ -160,6 +197,10 @@ $(document).ready(function() {
         });
     }
 
+    /**
+     * Referesh the todo list for the
+     * authenticated user.
+     */
     function refreshTodos() {
         // request all todos
         $.ajax({
@@ -190,14 +231,20 @@ $(document).ready(function() {
         });
     }
 
-    function openLogin($e) {
+    /**
+     * Open login state.
+     */
+    function openLogin() {
         $container.empty();
         $login.on('login', onLogin);
         $login.on('signup', onSignup);
         $container.append($login);
     }
 
-    function openTodoBox($e) {
+    /**
+     * Open todo state.
+     */
+    function openTodoBox() {
         $container.empty();
         $todoBox.on('logout', onLogout);
         $todoBox.on('add', onAdd);
@@ -208,5 +255,8 @@ $(document).ready(function() {
         refreshTodos();
     }
 
+    /**
+     * Initialize in the login state.
+     */
     openLogin();
 });
