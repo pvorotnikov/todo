@@ -1,27 +1,82 @@
-<link rel="import" href="../lib/polymer/polymer.html">
-<link rel="import" href="../lib/iron-icon/iron-icon.html">
+<link rel="import" href="/lib/polymer/polymer.html">
+<link rel="import" href="/lib/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="/lib/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/lib/paper-input/paper-input.html">
+<link rel="import" href="/lib/iron-icons/iron-icons.html">
 
 <dom-module id="todo-item">
     <template>
         <style>
         :host {
-            display: inline-block;
+            display: block;
+            min-width: 300px;
         }
-        iron-icon {
-            fill: rgba(0,0,0,0);
-            stroke: currentcolor;
+        :host > .todo-item {
+            /*padding: 3px 5px;*/
+            /*border: 1px solid #B3B3B3;*/
+            /*border-radius: 2px;*/
+            margin-bottom: 10px;
         }
-        :host([pressed]) iron-icon {
-            fill: currentcolor;
+        :host > .todo-item:before,
+        :host > .todo-item:after {
+            content:"";
+            display:table;
+        }
+        :host > .todo-item:after {
+            clear: both;
+        }
+
+        span.text {
+            line-height: 40px;
+        }
+
+        paper-icon-button {
+            float: right;
+        }
+
+        paper-checkbox {
+            float: left;
+            margin-top: 8px;
+            margin-left: 8px;
+            --paper-checkbox-size: 20px;
         }
         </style>
-        <iron-icon icon="communication:email"></iron-icon>
+        <div class="todo-item">
+            <paper-icon-button class="action" icon="icons:delete" id="delete"></paper-icon-button>
+            <paper-icon-button class="action" icon="icons:save" id="save"></paper-icon-button>
+            <paper-checkbox class="checkbox" checked=[[done]] id="done"></paper-checkbox>
+            <paper-input label="Text" id="text" disabled=[[done]] value={{text}} no-label-float></paper-input>
+        </div>
     </template>
 
     <script>
     Polymer({
-        /* this is the element's prototype */
-        is: 'todo-item'
+        is: 'todo-item',
+        properties: {
+            done: {
+                type: Boolean,
+                value: false,
+                notify: true,
+                reflectToAttribute: true
+            },
+            id: String,
+            text: String
+        },
+        listeners: {
+            'delete.tap': 'onDelete',
+            'save.tap': 'onSave',
+            'done.tap': 'onDone'
+        },
+        onDelete: function(e) {
+            this.fire('delete');
+        },
+        onSave: function(e) {
+            this.fire('save');
+        },
+        onDone: function(e) {
+            this.done = this.$.done.checked;
+            this.fire('done', {done: this.done});
+        },
     });
     </script>
 </dom-module>

@@ -1,0 +1,54 @@
+<link rel="import" href="/lib/polymer/polymer.html">
+<link rel="import" href="/lib/paper-button/paper-button.html">
+<link rel="import" href="/lib/paper-toast/paper-toast.html">
+
+<dom-module id="todo-box">
+    <template>
+        <style>
+        :host {
+            display: block;
+        }
+        .buttons {
+            padding-top: 20px;
+        }
+        #logout, #delete {
+            float: right;
+        }
+        #delete {
+            color: white;
+            background-color: var(--paper-red-500);
+        }
+        </style>
+        <content></content>
+        <div class="buttons">
+            <paper-button raised id="logout">Logout</paper-button>
+            <paper-button raised id="delete">Delete user</paper-button>
+            <paper-button raised id="add">Add</paper-button>
+        </div>
+        <paper-toast id="toast"></paper-toast>
+    </template>
+
+    <script>
+    Polymer({
+        is: 'todo-box',
+        listeners: {
+            'add.tap': 'onAdd',
+            'logout.tap': 'onLogout',
+            'delete.tap': 'onDelete'
+        },
+        onAdd: function() {
+            this.fire('add', {action: 'add'});
+        },
+        onLogout: function() {
+            this.fire('logout', {action: 'logout'});
+        },
+        onDelete: function() {
+            this.fire('delete', {action: 'delete'});
+        },
+        openToast: function(message) {
+            this.$.toast.text = message;
+            this.$.toast.open();
+        },
+    });
+    </script>
+</dom-module>

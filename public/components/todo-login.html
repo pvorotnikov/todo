@@ -1,0 +1,49 @@
+<link rel="import" href="/lib/polymer/polymer.html">
+<link rel="import" href="/lib/paper-input/paper-input.html">
+<link rel="import" href="/lib/paper-button/paper-button.html">
+<link rel="import" href="/lib/paper-toast/paper-toast.html">
+
+<dom-module id="todo-login">
+    <template>
+        <style>
+        :host {
+            max-width: 300px;
+            display: block;
+        }
+        .buttons {
+            padding-top: 20px;
+        }
+        </style>
+        <paper-input label="Username" id="username"></paper-input>
+        <paper-input label="Password" type="password" id="password"></paper-input>
+        <div class="buttons">
+            <paper-button raised id="login">Login</paper-button>
+            <paper-button id="signup">Sign up</paper-button>
+        </div>
+        <paper-toast id="toast"></paper-toast>
+    </template>
+
+    <script>
+    Polymer({
+        is: 'todo-login',
+        listeners: {
+            'login.tap': 'onLogin',
+            'signup.tap': 'onSignup'
+        },
+        onLogin: function() {
+            if ('' !== this.$.username.value && '' !== this.$.password.value) {
+                this.fire('login', {username: this.$.username.value, password: this.$.password.value});
+            }
+        },
+        onSignup: function() {
+            if ('' !== this.$.username.value && '' !== this.$.password.value) {
+                this.fire('signup', {username: this.$.username.value, password: this.$.password.value});
+            }
+        },
+        openToast: function(message) {
+            this.$.toast.text = message;
+            this.$.toast.open();
+        },
+    });
+    </script>
+</dom-module>
