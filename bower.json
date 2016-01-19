@@ -1,0 +1,21 @@
+{
+  "name": "todo",
+  "description": "TODO Project",
+  "main": "app.js",
+  "authors": [
+    "Petar Vorotnikov <petar@vorotnikov.net>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/pvorotnikov/todo",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "~1.2.3"
+  }
+}

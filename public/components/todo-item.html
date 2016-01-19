@@ -1,0 +1,27 @@
+<link rel="import" href="../lib/polymer/polymer.html">
+<link rel="import" href="../lib/iron-icon/iron-icon.html">
+
+<dom-module id="todo-item">
+    <template>
+        <style>
+        :host {
+            display: inline-block;
+        }
+        iron-icon {
+            fill: rgba(0,0,0,0);
+            stroke: currentcolor;
+        }
+        :host([pressed]) iron-icon {
+            fill: currentcolor;
+        }
+        </style>
+        <iron-icon icon="communication:email"></iron-icon>
+    </template>
+
+    <script>
+    Polymer({
+        /* this is the element's prototype */
+        is: 'todo-item'
+    });
+    </script>
+</dom-module>
