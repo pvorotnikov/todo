@@ -1,3 +1,9 @@
+/**
+ * @description: Main application logic module.
+ * @author: Petar Vorotnikov
+ * @email: petar@vorotnikov.net
+ */
+
 'use strict';
 
 $(document).ready(function() {

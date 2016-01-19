@@ -1,3 +1,9 @@
+/**
+ * @description: Main application router.
+ * @author: Petar Vorotnikov
+ * @email: petar@vorotnikov.net
+ */
+
 var express = require('express');
 var router = express.Router();
 
